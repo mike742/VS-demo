@@ -1,5 +1,8 @@
 ﻿using System;
 
+using PATA = ProjectA.TeamA;
+using PATB = ProjectA.TeamB;
+
 namespace VS_demo
 {
     class Program
@@ -47,7 +50,21 @@ namespace VS_demo
 
             Console.WriteLine($"{sum}  {prod}");
 
+            // parMethod(evenNumbers);
+            parMethod(1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12);
 
+
+            // namespaces
+            PATA.ClassA.Print();
+            PATB.ClassA.Print();
+        }
+
+
+
+        static void parMethod(int a, int b, params int[] args)
+        {
+            Console.WriteLine($"a = {a}; b = {b}");
+            Console.WriteLine(args.Length);
         }
 
         static void sNp(int a, int b, out int sum, out int prod)
@@ -65,6 +82,34 @@ namespace VS_demo
         {
             param = 77;
             return param;
+        }
+    }
+}
+
+
+// ProjectA
+// TeamA and TeamB
+namespace ProjectA
+{
+    namespace TeamA
+    {
+        class ClassA
+        {
+            public static void Print()
+            {
+                Console.WriteLine("TeamA -> Print()");
+            }
+        }
+    }
+
+    namespace TeamB
+    {
+        class ClassA
+        {
+            public static void Print()
+            {
+                Console.WriteLine("TeamB -> Print()");
+            }
         }
     }
 }
