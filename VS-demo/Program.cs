@@ -7,50 +7,64 @@ namespace VS_demo
         static void Main(string[] args)
         {
             /*
-            Console.WriteLine("Enter you name: ");
-            string userName = Console.ReadLine();
+            // \n \t
+            string str = "One\two\nThree";
+            Console.WriteLine(str);
 
-            Console.WriteLine("Hello " + userName);     // concat
-            Console.WriteLine("Hello {0}", userName);   // place holder
-            Console.WriteLine($"Hello {userName}");
-            */
+            str = "c:/Robertson\\CSharp\\Lessons\\Lesson-001.cs";
+            Console.WriteLine(str);
 
-            /*
-            Console.WriteLine("Enter you first name: ");
-            string firstName = Console.ReadLine();
+            str = @"c:\Robertson\CSharp\Lessons\Lesson-001.cs";
+            Console.WriteLine(str);
+             */
 
-            Console.WriteLine("Enter you last name: ");
-            string lastName = Console.ReadLine();
+            // Arrays
+            // int[] evenNumbers = { 2, 3, 4, 5, 6 };
+            int[] evenNumbers = new int[10]; // 0, 2, 4, 6, 8 ... length 10
 
-            Console.WriteLine("Hello " + firstName + " " + lastName);     // concat
-            Console.WriteLine("Hello {0} {1}", firstName, lastName);   // place holder
-            Console.WriteLine($"Hello {firstName} {lastName}"); 
-            */
+            for (int i = 0; i < evenNumbers.Length; i++)
+            {
+                evenNumbers[i] = i * 2;
+            }
 
-            // int? i = 77;
+            foreach (int e in evenNumbers)
+            {
+                Console.Write(e + " ");
+            }
+            Console.WriteLine();
 
-            int? ticketsOnSale = null;
-            
-            /*
-            if (ticketsOnSale == null)
-                availableTickts = 0;
-            else
-                availableTickts = (int)ticketsOnSale;
-            */
+            // Method parameters
 
-            int availableTickts = ticketsOnSale ?? 0;
+            var param = 11;
+            simpleMethod(ref param);
 
-            Console.WriteLine(availableTickts);
+            Console.WriteLine(param);
+            param = simpleMethod2(777);
+            Console.WriteLine( param );
 
-            // sbyte byte short ushort int uint long ulong
+            int sum = 0, prod = 0;
+            sNp(3, 4, out sum, out prod);
 
-            Console.WriteLine("type: \t\t Size: \t\t Min \t\t\t Max");
-            Console.WriteLine("sbyte \t\t" + sizeof(sbyte) + "\t\t" + sbyte.MinValue + "\t\t\t" +
-                sbyte.MaxValue);
-            Console.WriteLine("byte \t\t" + sizeof(byte) + "\t\t" + byte.MinValue + "\t\t\t" +
-                byte.MaxValue);
-            Console.WriteLine("short \t\t" + sizeof(short) + "\t\t" + short.MinValue + "\t\t\t" +
-                short.MaxValue);
+            Console.WriteLine($"{sum}  {prod}");
+
+
+        }
+
+        static void sNp(int a, int b, out int sum, out int prod)
+        {
+            sum = a + b;
+            prod = a * b;
+        }
+
+        static void simpleMethod(ref int param)
+        {
+            param = 77;
+        }
+
+        static int simpleMethod2(int param)
+        {
+            param = 77;
+            return param;
         }
     }
 }
