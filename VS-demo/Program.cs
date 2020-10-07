@@ -1,115 +1,133 @@
 ﻿using System;
-
-using PATA = ProjectA.TeamA;
-using PATB = ProjectA.TeamB;
+using System.Text;
 
 namespace VS_demo
 {
+    enum Importance
+    {
+        None,
+        Trivial,
+        Regular,
+        Important,
+        Critical
+    }
+
+    public delegate int Operation(int a, int b);
+    public delegate void PrintMsg();
+
     class Program
     {
         static void Main(string[] args)
         {
-            /*
-            // \n \t
-            string str = "One\two\nThree";
-            Console.WriteLine(str);
+            Importance value = Importance.Critical;
 
-            str = "c:/Robertson\\CSharp\\Lessons\\Lesson-001.cs";
-            Console.WriteLine(str);
+            if (value == Importance.Critical)
+                Console.WriteLine("Very important");
 
-            str = @"c:\Robertson\CSharp\Lessons\Lesson-001.cs";
-            Console.WriteLine(str);
-             */
+            // Generic
+            bool b1 = isEqual("9", "9");
+            bool b2 = isEqual(10.9, 10.9);
 
-            // Arrays
-            // int[] evenNumbers = { 2, 3, 4, 5, 6 };
-            int[] evenNumbers = new int[10]; // 0, 2, 4, 6, 8 ... length 10
+            Console.WriteLine(b1 ? "equal" : "not equal");
+            Console.WriteLine(b2 ? "equal" : "not equal");
 
-            for (int i = 0; i < evenNumbers.Length; i++)
-            {
-                evenNumbers[i] = i * 2;
-            }
+            // String builder
+            string path = "C:";
 
-            foreach (int e in evenNumbers)
-            {
-                Console.Write(e + " ");
-            }
-            Console.WriteLine();
+            path = path + "\\Csharp";
+            path = path + "\\Lessons";
+            path += "\\Lessons-001.cs";
 
-            // Method parameters
+            Console.WriteLine(path);
 
-            var param = 11;
-            simpleMethod(ref param);
+            StringBuilder sb = new StringBuilder("C:");
 
-            Console.WriteLine(param);
-            param = simpleMethod2(777);
-            Console.WriteLine( param );
+            sb.Append("\\Csharp").Append("\\Lessons").Append("\\Lessons-001.cs");
 
-            int sum = 0, prod = 0;
-            sNp(3, 4, out sum, out prod);
+            Console.WriteLine(sb);
 
-            Console.WriteLine($"{sum}  {prod}");
+            StringBuilder sb2 = new StringBuilder("This is an example string that is an example");
+            // an to the
+            sb2.Replace("an", "the");
 
-            // parMethod(evenNumbers);
-            parMethod(1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12);
+            Console.WriteLine(sb2);
+
+            StringBuilder sb3 = new StringBuilder();
+
+            sb3.AppendFormat("Hello {0}. This is {1}", "Mike", "Friday", "Monday");
+            sb3.AppendLine();
+            sb3.AppendLine();
+            sb3.AppendLine();
+            sb3.AppendLine();
+            sb3.Append("New Line");
+            Console.WriteLine(sb3[0]);
+
+            // join(', ') // one, two, three
+            string[] elems = { "bird", "cat", "dog" };
+            StringBuilder sb4 = new StringBuilder();
+
+            sb4.AppendJoin(", ", elems); // *
+
+            Console.WriteLine(sb4);
+
+            // delegates
+
+            int res = 0;
+
+            res = Run(new Operation(Add), 22, 44);
+
+            Console.WriteLine("res = {0}", res);
 
 
-            // namespaces
-            PATA.ClassA.Print();
-            PATB.ClassA.Print();
+            Talk(new PrintMsg(Hello));
+            Talk(new PrintMsg(Bye));
         }
 
-
-
-        static void parMethod(int a, int b, params int[] args)
+        static int Add(int a, int b)
         {
-            Console.WriteLine($"a = {a}; b = {b}");
-            Console.WriteLine(args.Length);
+            return a + b;
         }
 
-        static void sNp(int a, int b, out int sum, out int prod)
+        static void Talk(PrintMsg pm)
         {
-            sum = a + b;
-            prod = a * b;
+            pm.Invoke(); // pm()
         }
 
-        static void simpleMethod(ref int param)
+        static void Hello()
         {
-            param = 77;
+            Console.WriteLine("Hello!");
         }
 
-        static int simpleMethod2(int param)
+        static void Bye()
         {
-            param = 77;
-            return param;
+            Console.WriteLine("Bye!");
+        }
+
+        static int Subt(int a, int b)
+        {
+            return a - b;
+        }
+
+        static int Mult(int a, int b)
+        {
+            return a * b;
+        }
+
+        static int Run(Operation act, int a, int b)
+        {
+            return act(a, b);
+        }
+
+        static bool isEqual<T>(T a, T b)
+        {
+            return a.Equals(b); // ==
+        }
+
+        static bool isEqual2(object a, object b)
+        {
+            return a.Equals(b); // ==
         }
     }
 }
 
 
-// ProjectA
-// TeamA and TeamB
-namespace ProjectA
-{
-    namespace TeamA
-    {
-        class ClassA
-        {
-            public static void Print()
-            {
-                Console.WriteLine("TeamA -> Print()");
-            }
-        }
-    }
-
-    namespace TeamB
-    {
-        class ClassA
-        {
-            public static void Print()
-            {
-                Console.WriteLine("TeamB -> Print()");
-            }
-        }
-    }
-}
