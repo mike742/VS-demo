@@ -6,210 +6,139 @@ using System.Collections.Generic;
 
 namespace VS_demo
 {
-
-    public sealed class Empoyee
+    interface IPrintable
     {
-        public string FirstName { set; get; }
-        public string LastName { set; get; }
-
-        //ctor
-
-        public Empoyee() : this("n/a", "n/a") { }
-        public Empoyee(string fName, string lName)
-        {
-            FirstName = fName;
-            LastName = lName;
-        }
-         // ASP.NET - web app
-         // WPF 
-        public  void PrintFullName() // virtual
-        {
-            WriteLine("{0} {1} - Base class PrintFN method", FirstName, LastName);
-        }
-    }
-    class FullTimeEmployee : Empoyee
-    {
-        public float YearSalary { set; get; }
-
-        public override void PrintFullName()
-        {
-            // base.PrintFullName();
-            WriteLine("{0} {1} - FullTime", FirstName, LastName);
-        }
+        void Print();
     }
 
-    class PartTimeEmployee : Empoyee
+    interface IScanable : IPrintable
     {
-        public float HourlyRate { set; get; }
-
-        public override void PrintFullName()
-        {
-            WriteLine("{0} {1} - PartTime", FirstName, LastName);
-        }
-    }
-
-    class TempEmployee : Empoyee
-    {
-        public override void PrintFullName()
-        {
-            WriteLine("{0} {1} - Temporary", FirstName, LastName);
-        }
+        void Scan();
     }
 
     interface I1
     {
-        void Method();
+        void Print();
     }
 
-    struct MyStruct : I1
+    interface I2
     {
+        void Print();
+    }
+
+    abstract class MyClass
+    {
+        #region Fields
         private int _id;
         private string _name;
+        private string _name2;
+        private string _name3;
+        private string _name444;
+        private string _name5;
+        private string _name6;
+        #endregion
 
-        public int Id { get => _id; set => _id = value; }
+        #region Properties
+        protected int Id { get => _id; set => _id = value; }
         public string Name { get => _name; set => _name = value; }
+        public string Name2 { get => _name2; set => _name2 = value; }
+        public string Name3 { get => _name3; set => _name3 = value; }
+        public string Name6 { get => _name6; set => _name6 = value; }
+        #endregion
 
-        /*
-        public MyStruct()
-        {
-            _id = 0;
-            _name = "no name";
-        }
-        */
-        public MyStruct(int id, string name)
-        {
-            _id = id;
-            _name = name;
-        }
-
+        #region Methods
         public void Print()
         {
-            WriteLine("{0} - {1}", Id, Name);
+            WriteLine("Print Method");
         }
 
-        public void Method()
+        public void Print2()
         {
-            // throw new NotImplementedException();
+            WriteLine("Print Method");
         }
+
+        public void Print3()
+        {
+            WriteLine("Print Method");
+        }
+
+        public void Print4()
+        {
+            WriteLine("Print Method");
+        }
+        public void Print5()
+        {
+            WriteLine("Print Method");
+        }
+        public void Print6()
+        {
+            WriteLine("Print Method");
+        }
+        public void Print7()
+        {
+            WriteLine("Print Method");
+        }
+        #endregion
+
+        public abstract void AbsPrint();
     }
 
-    class MyClass
+    class MyClass2 : MyClass // internal
     {
-        private int _id;
-        private string _name;
-
-        public int Id { get => _id; set => _id = value; }
-        public string Name { get => _name; set => _name = value; }
-
-        public MyClass()
+        public override void AbsPrint()
         {
-            
+            WriteLine( Id ) ;
         }
-        public MyClass(int id, string name)
-        {
-            _id = id;
-            _name = name;
-        }
-
-        public void Print()
-        {
-            WriteLine("{0} - {1}", Id, Name);
-        }
-
-        ~MyClass()
-        { }
     }
 
-    public class Program
+    public class Program : I1, I2
     {
         static void Main(string[] args)
         {
-            /*
-            PartTimeEmployee e1 = new PartTimeEmployee();
-            FullTimeEmployee e2 = new FullTimeEmployee();
-            Empoyee e = new Empoyee();
+            Program p = new Program();
 
-            e1.HourlyRate = 15;
-            e2.YearSalary = 30000;
+            //p.Print();
+            // p.Scan();
 
-            e1.PrintFullName();
-            e2.PrintFullName();
-            e.PrintFullName();
-            */
+            ((I1)p).Print();
+            ((I2)p).Print();
 
-            List<Empoyee> le = new List<Empoyee>();
+            MyClass2 c = new MyClass2();
+            c.Print();
+            
+        }
 
-            le.Add(new Empoyee());
-            le.Add(new PartTimeEmployee());
-            le.Add(new FullTimeEmployee());
-            le.Add(new TempEmployee());
+        public static List<int> Primes(int n)
+        {
+            var primes = new List<int>();
 
-            foreach (var e in le)
+            for (int i = 2; i <= n; ++i)
             {
-                e.PrintFullName();
+                while (n % i == 0)
+                {
+                    primes.Add(i);
+                    n /= i;
+                }
             }
 
-            int test = 77;
-
-            // Add(2, 3, out test);
-
-            String str = String.Empty;
-            string str2 = string.Empty;
-
-            System.Int32 i = 55;
-
-            Write("test = {0}", test);
-
-
-            WriteLine("=====================================================================");
-            MyStruct ms = new MyStruct() { Id = 101, Name = "Mark" };
-            MyClass mc = new MyClass() { Id = 101, Name = "Mark" };
-
-            MyStruct ms2 = ms;
-            
-            MyClass mc2 = mc;
-
-            ms2.Name = "New Struct Mark";
-            mc2.Name = "New Class Mark";
-
-            ms.Print();
-            ms2.Print();
-
-            mc.Print();
-            mc2.Print();
+            return primes;
         }
 
-        static void Add(int a, int b)
+        public void Scan()
         {
-            WriteLine(a + b);
-        }
-        /*
-        static void Add(int a, int b, in int sum) // sum - read-only
-        {
-            // sum = a + b;
-            WriteLine(a + b + sum);
-        }
-        */
-        static void Add(int a, int b, ref int test) // ref - could be changed
-        {
-            // test = 55;
-            WriteLine(a + b);
+            WriteLine("Do scanning");
         }
 
-        static void Add(int a, int b, out int test, int ddd) // out - should be changed
+        void I2.Print()
         {
-            test = 55;
-            WriteLine(a + b);
+            WriteLine("Do printing I2");
         }
-        static void Add(int a, int b, int sum)
+
+        void I1.Print()
         {
-            sum = a + b;
-            WriteLine(sum);
+            WriteLine("Do Print I1");
         }
-        static void Add(float a, int b)
-        {
-            WriteLine(a + b);
-        }
+
     }
 }
 
