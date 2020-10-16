@@ -6,8 +6,4 @@
     <RootNamespace>VS_demo</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ClassLibrary1.csproj" />
-  </ItemGroup>
-
 </Project>

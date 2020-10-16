@@ -1,144 +1,91 @@
 ﻿using System;
-using static System.Console;
-using ClassLibrary1;
 using System.Collections.Generic;
-// using VS_demo1;
+using static System.Console;
+
 
 namespace VS_demo
 {
-    interface IPrintable
-    {
-        void Print();
-    }
-
-    interface IScanable : IPrintable
-    {
-        void Scan();
-    }
-
-    interface I1
-    {
-        void Print();
-    }
-
-    interface I2
-    {
-        void Print();
-    }
-
-    abstract class MyClass
-    {
-        #region Fields
-        private int _id;
-        private string _name;
-        private string _name2;
-        private string _name3;
-        private string _name444;
-        private string _name5;
-        private string _name6;
-        #endregion
-
-        #region Properties
-        protected int Id { get => _id; set => _id = value; }
-        public string Name { get => _name; set => _name = value; }
-        public string Name2 { get => _name2; set => _name2 = value; }
-        public string Name3 { get => _name3; set => _name3 = value; }
-        public string Name6 { get => _name6; set => _name6 = value; }
-        #endregion
-
-        #region Methods
-        public void Print()
-        {
-            WriteLine("Print Method");
-        }
-
-        public void Print2()
-        {
-            WriteLine("Print Method");
-        }
-
-        public void Print3()
-        {
-            WriteLine("Print Method");
-        }
-
-        public void Print4()
-        {
-            WriteLine("Print Method");
-        }
-        public void Print5()
-        {
-            WriteLine("Print Method");
-        }
-        public void Print6()
-        {
-            WriteLine("Print Method");
-        }
-        public void Print7()
-        {
-            WriteLine("Print Method");
-        }
-        #endregion
-
-        public abstract void AbsPrint();
-    }
-
-    class MyClass2 : MyClass // internal
-    {
-        public override void AbsPrint()
-        {
-            WriteLine( Id ) ;
-        }
-    }
-
-    public class Program : I1, I2
+    class Program 
     {
         static void Main(string[] args)
         {
-            Program p = new Program();
+            Adder newAdder = new Adder();
 
-            //p.Print();
-            // p.Scan();
+            dgPointer myDelegate = new dgPointer(Add);
+            int sum = myDelegate(4, 3);
 
-            ((I1)p).Print();
-            ((I2)p).Print();
+            Action myAction = new Action(newAdder.Method1);
+            dgAction ddd = new dgAction(newAdder.Method2);
 
-            MyClass2 c = new MyClass2();
-            c.Print();
+            myAction.Invoke();
+
+            ddd.Invoke();
+
+            WriteLine(sum);
+
+            WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+            newAdder.OnSumModFive += new Adder.dgEventRaiser(m_SumOnFive);
+
+            int res = newAdder.Add2(4, 3);
+            WriteLine("res = {0}", res);
             
+            res = newAdder.Add2(4, 6);
+            WriteLine("res = {0}", res);
         }
 
-        public static List<int> Primes(int n)
+        static void m_SumOnFive()
         {
-            var primes = new List<int>();
+            WriteLine("Sum % 5 == 0");
+        }
 
-            for (int i = 2; i <= n; ++i)
+
+        public static void Something(int a, int b, dgPointer p)
+        {
+            p.Invoke(100, 200);
+        }
+
+        public static int Add(int a, int b) => a + b;
+    }
+
+    public delegate int dgPointer(int a, int b);
+    public delegate string dgPointer2(int a, int b);
+    public delegate List<string> dgPointer3(int a, int b);
+
+    public delegate void dgAction();
+
+    class Adder
+    {
+        public int Add(int a, int b) => a + b;
+        public int Sub(int a, int b) => a - b;
+        public int Mult(int a, int b) => a * b;
+        public int Div(int a, int b) => a / b;
+        public int Mod(int a, int b) => a % b;
+
+        public void Method1()
+        {
+            WriteLine("Hello Action delegates!!!!!!");
+        }
+        public void Method2()
+        {
+            WriteLine("Good Morning Action delegates!!!!!!");
+        }
+
+
+        public delegate void dgEventRaiser();
+        // public delegate void Action();
+        public event dgEventRaiser OnSumModFive;
+
+        public int Add2(int a, int b)
+        {
+            int sum = a + b;
+            if (sum % 5 == 0)
             {
-                while (n % i == 0)
-                {
-                    primes.Add(i);
-                    n /= i;
-                }
+                OnSumModFive();
             }
 
-            return primes;
+            return sum;
         }
-
-        public void Scan()
-        {
-            WriteLine("Do scanning");
-        }
-
-        void I2.Print()
-        {
-            WriteLine("Do printing I2");
-        }
-
-        void I1.Print()
-        {
-            WriteLine("Do Print I1");
-        }
-
     }
 }
 
